@@ -15,12 +15,22 @@ import { LikesModule } from './likes/likes.module';
 import { CommentsModule } from './comments/comments.module';
 import { AdminsModule } from './admins/admins.module';
 import { OtpModule } from './otp/otp.module';
-import { StatisticasModule } from './statisticas/statisticas.module';
 import { User } from './users/models/user.model';
 import { Otp } from './otp/models/otp.model';
 import { PaymentMethod } from './payment_methods/models/payment_method.model';
 import { MonthlySubscription } from './monthly_subscriptions/models/monthly_subscription.model';
 import { Like } from './likes/models/like.model';
+import { Dislike } from './dislikes/models/dislike.model';
+import { Discount } from './discounts/models/discount.model';
+import { Comment } from './comments/models/comment.model';
+import { Book } from './books/models/book.model';
+import { BookPayment } from './book_payments/models/book_payment.model';
+import { BookImage } from './book_images/models/book_image.model';
+import { Author } from './authors/models/author.model';
+import { Advertisement } from './advertisements/models/advertisement.model';
+import { Admin } from './admins/models/admin.model';
+import { StatisticaModule } from './statistica/statistica.module';
+import { Statistica } from './statistica/models/statistica.model';
 
 
 @Module({
@@ -33,7 +43,7 @@ import { Like } from './likes/models/like.model';
       username: process.env.POSTGRES_USER,
       password: String(process.env.POSTGRES_PASSWORD),
       database: process.env.POSTGRES_DB,
-      models: [User, Otp, PaymentMethod, MonthlySubscription, Like],
+      models: [User, Otp, PaymentMethod, MonthlySubscription, Like, Dislike, Discount, Comment, Book, BookPayment, BookImage, Author, Advertisement, Admin, Statistica],
       autoLoadModels: true,
       logging: false,
     }),
@@ -51,7 +61,7 @@ import { Like } from './likes/models/like.model';
     CommentsModule,
     AdminsModule,
     OtpModule,
-    StatisticasModule,
+    StatisticaModule,
   ],
   controllers: [],
   providers: [],

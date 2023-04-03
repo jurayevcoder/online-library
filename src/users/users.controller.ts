@@ -9,6 +9,7 @@ import { LoginUserDto } from './dto/login-user.dto';
 import { UserSalfGuard } from '../guards/user-self.guard';
 import { User } from './models/user.model';
 import { VerifyOtpDto } from './dto/verifyOtp.det';
+import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 
 @ApiTags("Foydalanuvchilar")
 @Controller('users')
@@ -46,6 +47,7 @@ export class UsersController {
 
   @ApiOperation({ summary: "Foydalanuvchini ko'rish" })
   @UseGuards(UserSalfGuard)
+  @UseGuards(JwtAuthGuard)
   @Get('find-all')
   async getAllUser() {
     return this.usersService.getAllUser();
@@ -53,6 +55,7 @@ export class UsersController {
 
   @ApiOperation({ summary: "Foydalanuvchin ID si bo'yicha ko'rish" })
   @UseGuards(UserSalfGuard)
+  @UseGuards(JwtAuthGuard)
   @Get('find/:id')
   async getOneUser(@Param("id") id: string): Promise<User> {
     return this.usersService.getOneUser(+id);
@@ -60,6 +63,7 @@ export class UsersController {
 
   @ApiOperation({ summary: "Foydalanuvchin ID si bo'yicha o'chirish" })
   @UseGuards(UserSalfGuard)
+  @UseGuards(JwtAuthGuard)
   @Delete('delete/:id')
   async delOneUser(@Param("id") id: string) {
     return this.usersService.delOneUser(+id);
@@ -67,6 +71,7 @@ export class UsersController {
 
   @ApiOperation({ summary: "Foydalanuvchin ID si bo'yicha o'zgartirish" })
   @UseGuards(UserSalfGuard)
+  @UseGuards(JwtAuthGuard)
   @Put("update/:id")
   async updateUser(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.updateUser(+id, updateUserDto);

@@ -66,8 +66,8 @@ export class UsersService {
 
 
   async login(loginUserDto: LoginUserDto, res: Response) {
-    const { phone, password } = loginUserDto;
-    const user = await this.userRepo.findOne({ where: { phone } });
+    const { email, password } = loginUserDto;
+    const user = await this.userRepo.findOne({ where: { email } });
     if (!user) {
       throw new UnauthorizedException('User not registered');
     }
@@ -103,7 +103,7 @@ export class UsersService {
       secret: process.env.REFRESH_TOKEN_KEY,
     })
     if (!user) {
-      throw new ForbiddenException('Customer not found');
+      throw new ForbiddenException('User not found');
     }
     const updatedUser = await this.userRepo.update(
       { hashed_refresh_token: null },
@@ -112,7 +112,7 @@ export class UsersService {
     res.clearCookie('refresh_token');
     const response = {
       message: 'User logged out successfully',
-      customer: updatedUser[1][0],
+      user: updatedUser[1][0],
     }
     return response;
 

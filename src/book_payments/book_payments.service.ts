@@ -1,26 +1,35 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/sequelize';
 import { CreateBookPaymentDto } from './dto/create-book_payment.dto';
 import { UpdateBookPaymentDto } from './dto/update-book_payment.dto';
+import { BookPayment } from './models/book_payment.model';
 
 @Injectable()
 export class BookPaymentsService {
-  create(createBookPaymentDto: CreateBookPaymentDto) {
-    return 'This action adds a new bookPayment';
-  }
+  constructor(@InjectModel(BookPayment) private bookPaymentRepo: typeof BookPayment) {}
 
-  findAll() {
-    return `This action returns all bookPayments`;
-  }
+    async createBookPayment(createBookPaymentDto: CreateBookPaymentDto): Promise<BookPayment> {
+        const book_payment = await this.bookPaymentRepo.create(createBookPaymentDto);
+        return book_payment;
+    }
 
-  findOne(id: number) {
-    return `This action returns a #${id} bookPayment`;
-  }
+    async getAllBookPayment(){
+        const book_paymenties = await this.bookPaymentRepo.findAll({include: {all: true}});
+        return book_paymenties;
+    }
 
-  update(id: number, updateBookPaymentDto: UpdateBookPaymentDto) {
-    return `This action updates a #${id} bookPayment`;
-  }
+    async getOneBookPayment(id: number): Promise<BookPayment>{
+        const book_payment = await this.bookPaymentRepo.findByPk(id);
+        return book_payment;
+    }
 
-  remove(id: number) {
-    return `This action removes a #${id} bookPayment`;
-  }
+    async delOneBookPayment(id: number){
+        return this.bookPaymentRepo.destroy({where: {id}});
+    }
+
+    async updateBookPayment(id: number, updateBookPaymentDto: UpdateBookPaymentDto){
+        const book_payment = await this.bookPaymentRepo.update(updateBookPaymentDto,{
+            where: {id},
+        })
+    }
 }

@@ -1,34 +1,42 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Put } from '@nestjs/common';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { BookPaymentsService } from './book_payments.service';
 import { CreateBookPaymentDto } from './dto/create-book_payment.dto';
 import { UpdateBookPaymentDto } from './dto/update-book_payment.dto';
+import { BookPayment } from './models/book_payment.model';
 
+@ApiTags("Kitob Olish Turlari")
 @Controller('book-payments')
 export class BookPaymentsController {
   constructor(private readonly bookPaymentsService: BookPaymentsService) {}
 
-  @Post()
-  create(@Body() createBookPaymentDto: CreateBookPaymentDto) {
-    return this.bookPaymentsService.create(createBookPaymentDto);
+  @ApiOperation({ summary: "Kitobni olishlarni yaratish" })
+  @Post("create")
+  async createBookPayment(@Body() createBookPaymentDto: CreateBookPaymentDto): Promise<BookPayment> {
+    return this.bookPaymentsService.createBookPayment(createBookPaymentDto);
   }
 
-  @Get()
-  findAll() {
-    return this.bookPaymentsService.findAll();
+  @ApiOperation({ summary: "Kitobni olishlarni ko'rish " })
+  @Get('find-all')
+  async getAllBookPayment() {
+    return this.bookPaymentsService.getAllBookPayment();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.bookPaymentsService.findOne(+id);
+  @ApiOperation({ summary: "Kitobni olishni ID si bo'yicha ko'rish" })
+  @Get('find/:id')
+  async getOneBookPayment(@Param("id") id: string): Promise<BookPayment> {
+    return this.bookPaymentsService.getOneBookPayment(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBookPaymentDto: UpdateBookPaymentDto) {
-    return this.bookPaymentsService.update(+id, updateBookPaymentDto);
+  @ApiOperation({ summary: "Kitobni olishni ID si bo'yicha o'chirish" })
+  @Delete('delete/:id')
+  async delOneBookPayment(@Param("id") id: string) {
+    return this.bookPaymentsService.delOneBookPayment(+id);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.bookPaymentsService.remove(+id);
+  @ApiOperation({ summary: "Kitobni olishni ID si bo'yicha o'zgartirish" })
+  @Put("update/:id")
+  async updateBookPayment(@Param('id') id: string, @Body() updateBookPaymentDto: UpdateBookPaymentDto) {
+    return this.bookPaymentsService.updateBookPayment(+id, updateBookPaymentDto);
   }
 }

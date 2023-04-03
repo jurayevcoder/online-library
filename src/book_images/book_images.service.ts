@@ -1,26 +1,35 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/sequelize';
 import { CreateBookImageDto } from './dto/create-book_image.dto';
 import { UpdateBookImageDto } from './dto/update-book_image.dto';
+import { BookImage } from './models/book_image.model';
 
 @Injectable()
 export class BookImagesService {
-  create(createBookImageDto: CreateBookImageDto) {
-    return 'This action adds a new bookImage';
-  }
+    constructor(@InjectModel(BookImage) private BookImageRepo: typeof BookImage) { }
 
-  findAll() {
-    return `This action returns all bookImages`;
-  }
+    async createBookImage(createBookImageDto: CreateBookImageDto): Promise<BookImage> {
+        const book_image = await this.BookImageRepo.create(createBookImageDto);
+        return book_image;
+    }
 
-  findOne(id: number) {
-    return `This action returns a #${id} bookImage`;
-  }
+    async getAllBookImage() {
+        const book_imageies = await this.BookImageRepo.findAll({ include: { all: true } });
+        return book_imageies;
+    }
 
-  update(id: number, updateBookImageDto: UpdateBookImageDto) {
-    return `This action updates a #${id} bookImage`;
-  }
+    async getOneBookImage(id: number): Promise<BookImage> {
+        const book_image = await this.BookImageRepo.findByPk(id);
+        return book_image;
+    }
 
-  remove(id: number) {
-    return `This action removes a #${id} bookImage`;
-  }
+    async delOneBookImage(id: number) {
+        return this.BookImageRepo.destroy({ where: { id } });
+    }
+
+    async updateBookImage(id: number, updateBookImageDto: UpdateBookImageDto) {
+        const book_image = await this.BookImageRepo.update(updateBookImageDto, {
+            where: { id },
+        })
+    }
 }

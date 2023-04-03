@@ -3,6 +3,7 @@ import { MonthlySubscriptionsService } from './monthly_subscriptions.service';
 import { CreateMonthlySubscriptionDto } from './dto/create-monthly_subscription.dto';
 import { UpdateMonthlySubscriptionDto } from './dto/update-monthly_subscription.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { MonthlySubscription } from './models/monthly_subscription.model';
 
 @ApiTags("Oylig Obunalar")
 @Controller('monthly-subscriptions')

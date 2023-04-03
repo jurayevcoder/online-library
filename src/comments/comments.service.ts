@@ -1,26 +1,35 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/sequelize';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { UpdateCommentDto } from './dto/update-comment.dto';
+import { Comment } from './models/comment.model';
 
 @Injectable()
 export class CommentsService {
-  create(createCommentDto: CreateCommentDto) {
-    return 'This action adds a new comment';
-  }
+  constructor(@InjectModel(Comment) private commentRepo: typeof Comment) {}
 
-  findAll() {
-    return `This action returns all comments`;
-  }
+    async createComment(createCommentDto: CreateCommentDto): Promise<Comment> {
+        const comment = await this.commentRepo.create(createCommentDto);
+        return comment;
+    }
 
-  findOne(id: number) {
-    return `This action returns a #${id} comment`;
-  }
+    async getAllComment(){
+        const commenties = await this.commentRepo.findAll({include: {all: true}});
+        return commenties;
+    }
 
-  update(id: number, updateCommentDto: UpdateCommentDto) {
-    return `This action updates a #${id} comment`;
-  }
+    async getOneComment(id: number): Promise<Comment>{
+        const comment = await this.commentRepo.findByPk(id);
+        return comment;
+    }
 
-  remove(id: number) {
-    return `This action removes a #${id} comment`;
-  }
+    async delOneComment(id: number){
+        return this.commentRepo.destroy({where: {id}});
+    }
+
+    async updateComment(id: number, updateCommentDto: UpdateCommentDto){
+        const comment = await this.commentRepo.update(updateCommentDto,{
+            where: {id},
+        })
+    }
 }
