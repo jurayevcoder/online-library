@@ -1,34 +1,42 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Put } from '@nestjs/common';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { DiscountsService } from './discounts.service';
 import { CreateDiscountDto } from './dto/create-discount.dto';
 import { UpdateDiscountDto } from './dto/update-discount.dto';
+import { Discount } from './models/discount.model';
 
+@ApiTags("Chegirmalar")
 @Controller('discounts')
 export class DiscountsController {
   constructor(private readonly discountsService: DiscountsService) {}
 
-  @Post()
-  create(@Body() createDiscountDto: CreateDiscountDto) {
-    return this.discountsService.create(createDiscountDto);
+  @ApiOperation({ summary: "Chegirma yaratish" })
+  @Post("create")
+  async createDiscount(@Body() createDiscountDto: CreateDiscountDto): Promise<Discount> {
+    return this.discountsService.createDiscount(createDiscountDto);
   }
 
-  @Get()
-  findAll() {
-    return this.discountsService.findAll();
+  @ApiOperation({ summary: "Chegirmalarni ko'rish " })
+  @Get('find-all')
+  async getAllDiscount() {
+    return this.discountsService.getAllDiscount();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.discountsService.findOne(+id);
+  @ApiOperation({ summary: "Chegirmani ID si bo'yicha ko'rish" })
+  @Get('find/:id')
+  async getOneDiscount(@Param("id") id: string): Promise<Discount> {
+    return this.discountsService.getOneDiscount(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateDiscountDto: UpdateDiscountDto) {
-    return this.discountsService.update(+id, updateDiscountDto);
+  @ApiOperation({ summary: "Chegirmani ID si bo'yicha o'chirish" })
+  @Delete('delete/:id')
+  async delOneDiscount(@Param("id") id: string) {
+    return this.discountsService.delOneDiscount(+id);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.discountsService.remove(+id);
+  @ApiOperation({ summary: "Chegirmani ID si bo'yicha o'zgartirish" })
+  @Put("update/:id")
+  async updateDiscount(@Param('id') id: string, @Body() updateDiscountDto: UpdateDiscountDto) {
+    return this.discountsService.updateDiscount(+id, updateDiscountDto);
   }
 }

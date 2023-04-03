@@ -1,26 +1,35 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/sequelize';
 import { CreateLikeDto } from './dto/create-like.dto';
 import { UpdateLikeDto } from './dto/update-like.dto';
+import { Like } from './models/like.model';
 
 @Injectable()
 export class LikesService {
-  create(createLikeDto: CreateLikeDto) {
-    return 'This action adds a new like';
-  }
+  constructor(@InjectModel(Like) private likeRepo: typeof Like) {}
 
-  findAll() {
-    return `This action returns all likes`;
-  }
+    async createLike(createLikeDto: CreateLikeDto): Promise<Like> {
+        const like = await this.likeRepo.create(createLikeDto);
+        return like;
+    }
 
-  findOne(id: number) {
-    return `This action returns a #${id} like`;
-  }
+    async getAllLike(){
+        const likeies = await this.likeRepo.findAll({include: {all: true}});
+        return likeies;
+    }
 
-  update(id: number, updateLikeDto: UpdateLikeDto) {
-    return `This action updates a #${id} like`;
-  }
+    async getOneLike(id: number): Promise<Like>{
+        const like = await this.likeRepo.findByPk(id);
+        return like;
+    }
 
-  remove(id: number) {
-    return `This action removes a #${id} like`;
-  }
+    async delOneLike(id: number){
+        return this.likeRepo.destroy({where: {id}});
+    }
+
+    async updateLike(id: number, updateLikeDto: UpdateLikeDto){
+        const like = await this.likeRepo.update(updateLikeDto,{
+            where: {id},
+        })
+    }
 }

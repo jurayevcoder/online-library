@@ -1,26 +1,35 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/sequelize';
 import { CreateDislikeDto } from './dto/create-dislike.dto';
 import { UpdateDislikeDto } from './dto/update-dislike.dto';
+import { Dislike } from './models/dislike.model';
 
 @Injectable()
 export class DislikesService {
-  create(createDislikeDto: CreateDislikeDto) {
-    return 'This action adds a new dislike';
-  }
+  constructor(@InjectModel(Dislike) private dislikeRepo: typeof Dislike) {}
 
-  findAll() {
-    return `This action returns all dislikes`;
-  }
+    async createDislike(createDislikeDto: CreateDislikeDto): Promise<Dislike> {
+        const dislike = await this.dislikeRepo.create(createDislikeDto);
+        return dislike;
+    }
 
-  findOne(id: number) {
-    return `This action returns a #${id} dislike`;
-  }
+    async getAllDislike(){
+        const dislikeies = await this.dislikeRepo.findAll({include: {all: true}});
+        return dislikeies;
+    }
 
-  update(id: number, updateDislikeDto: UpdateDislikeDto) {
-    return `This action updates a #${id} dislike`;
-  }
+    async getOneDislike(id: number): Promise<Dislike>{
+        const dislike = await this.dislikeRepo.findByPk(id);
+        return dislike;
+    }
 
-  remove(id: number) {
-    return `This action removes a #${id} dislike`;
-  }
+    async delOneDislike(id: number){
+        return this.dislikeRepo.destroy({where: {id}});
+    }
+
+    async updateDislike(id: number, updateDislikeDto: UpdateDislikeDto){
+        const dislike = await this.dislikeRepo.update(updateDislikeDto,{
+            where: {id},
+        })
+    }
 }

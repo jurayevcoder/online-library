@@ -18,6 +18,9 @@ import { OtpModule } from './otp/otp.module';
 import { StatisticasModule } from './statisticas/statisticas.module';
 import { User } from './users/models/user.model';
 import { Otp } from './otp/models/otp.model';
+import { PaymentMethod } from './payment_methods/models/payment_method.model';
+import { MonthlySubscription } from './monthly_subscriptions/models/monthly_subscription.model';
+import { Like } from './likes/models/like.model';
 
 
 @Module({
@@ -30,7 +33,7 @@ import { Otp } from './otp/models/otp.model';
       username: process.env.POSTGRES_USER,
       password: String(process.env.POSTGRES_PASSWORD),
       database: process.env.POSTGRES_DB,
-      models: [User, Otp],
+      models: [User, Otp, PaymentMethod, MonthlySubscription, Like],
       autoLoadModels: true,
       logging: false,
     }),

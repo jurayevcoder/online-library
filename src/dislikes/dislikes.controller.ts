@@ -1,34 +1,42 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Put } from '@nestjs/common';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { DislikesService } from './dislikes.service';
 import { CreateDislikeDto } from './dto/create-dislike.dto';
 import { UpdateDislikeDto } from './dto/update-dislike.dto';
+import { Dislike } from './models/dislike.model';
 
+@ApiTags("Dislayklar")
 @Controller('dislikes')
 export class DislikesController {
   constructor(private readonly dislikesService: DislikesService) {}
 
-  @Post()
-  create(@Body() createDislikeDto: CreateDislikeDto) {
-    return this.dislikesService.create(createDislikeDto);
+  @ApiOperation({ summary: "Dislayk bosish" })
+  @Post("dislike")
+  async createDislike(@Body() createDislikeDto: CreateDislikeDto): Promise<Dislike> {
+    return this.dislikesService.createDislike(createDislikeDto);
   }
 
-  @Get()
-  findAll() {
-    return this.dislikesService.findAll();
+  @ApiOperation({ summary: "Dislayklarni ko'rish " })
+  @Get('find-all')
+  async getAllDislike() {
+    return this.dislikesService.getAllDislike();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.dislikesService.findOne(+id);
+  @ApiOperation({ summary: "Dislaykni ID si bo'yicha ko'rish" })
+  @Get('find/:id')
+  async getOneDislike(@Param("id") id: string): Promise<Dislike> {
+    return this.dislikesService.getOneDislike(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateDislikeDto: UpdateDislikeDto) {
-    return this.dislikesService.update(+id, updateDislikeDto);
+  @ApiOperation({ summary: "Dislaykni ID si bo'yicha o'chirish" })
+  @Delete('delete/:id')
+  async delOneDislike(@Param("id") id: string) {
+    return this.dislikesService.delOneDislike(+id);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.dislikesService.remove(+id);
+  @ApiOperation({ summary: "Dislaykni ID si bo'yicha o'zgartirish" })
+  @Put("update/:id")
+  async updateDislike(@Param('id') id: string, @Body() updateDislikeDto: UpdateDislikeDto) {
+    return this.dislikesService.updateDislike(+id, updateDislikeDto);
   }
 }

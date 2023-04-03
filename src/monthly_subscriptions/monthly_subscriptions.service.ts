@@ -1,26 +1,35 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/sequelize';
 import { CreateMonthlySubscriptionDto } from './dto/create-monthly_subscription.dto';
 import { UpdateMonthlySubscriptionDto } from './dto/update-monthly_subscription.dto';
+import { MonthlySubscription } from './models/monthly_subscription.model';
 
 @Injectable()
 export class MonthlySubscriptionsService {
-  create(createMonthlySubscriptionDto: CreateMonthlySubscriptionDto) {
-    return 'This action adds a new monthlySubscription';
-  }
+  constructor(@InjectModel(MonthlySubscription) private monthlySubscriptionRepo: typeof MonthlySubscription) {}
 
-  findAll() {
-    return `This action returns all monthlySubscriptions`;
-  }
+    async createMonthlySubscription(createMonthlySubscriptionDto: CreateMonthlySubscriptionDto): Promise<MonthlySubscription> {
+        const monthly_subscription = await this.monthlySubscriptionRepo.create(createMonthlySubscriptionDto);
+        return monthly_subscription;
+    }
 
-  findOne(id: number) {
-    return `This action returns a #${id} monthlySubscription`;
-  }
+    async getAllMonthlySubscription(){
+        const monthly_subscriptionies = await this.monthlySubscriptionRepo.findAll({include: {all: true}});
+        return monthly_subscriptionies;
+    }
 
-  update(id: number, updateMonthlySubscriptionDto: UpdateMonthlySubscriptionDto) {
-    return `This action updates a #${id} monthlySubscription`;
-  }
+    async getOneMonthlySubscription(id: number): Promise<MonthlySubscription>{
+        const monthly_subscription = await this.monthlySubscriptionRepo.findByPk(id);
+        return monthly_subscription;
+    }
 
-  remove(id: number) {
-    return `This action removes a #${id} monthlySubscription`;
-  }
+    async delOneMonthlySubscription(id: number){
+        return this.monthlySubscriptionRepo.destroy({where: {id}});
+    }
+
+    async updateMonthlySubscription(id: number, updateMonthlySubscriptionDto: UpdateMonthlySubscriptionDto){
+        const monthly_subscription = await this.monthlySubscriptionRepo.update(updateMonthlySubscriptionDto,{
+            where: {id},
+        })
+    }
 }
