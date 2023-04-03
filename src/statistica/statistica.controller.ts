@@ -1,34 +1,41 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Put } from '@nestjs/common';
 import { StatisticaService } from './statistica.service';
 import { CreateStatisticaDto } from './dto/create-statistica.dto';
 import { UpdateStatisticaDto } from './dto/update-statistica.dto';
+import { ApiOperation } from '@nestjs/swagger';
+import { Statistica } from './models/statistica.model';
 
 @Controller('statistica')
 export class StatisticaController {
   constructor(private readonly statisticaService: StatisticaService) {}
 
-  @Post()
-  create(@Body() createStatisticaDto: CreateStatisticaDto) {
-    return this.statisticaService.create(createStatisticaDto);
+  @ApiOperation({ summary: "Statistica yaratish" })
+  @Post("create")
+  async createStatistica(@Body() createStatisticaDto: CreateStatisticaDto): Promise<Statistica> {
+    return this.statisticaService.createStatistica(createStatisticaDto);
   }
 
-  @Get()
-  findAll() {
-    return this.statisticaService.findAll();
+  @ApiOperation({ summary: "Statisticalarni ko'rish " })
+  @Get('find-all')
+  async getAllStatistica() {
+    return this.statisticaService.getAllStatistica();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.statisticaService.findOne(+id);
+  @ApiOperation({ summary: "Statisticani ID si bo'yicha ko'rish" })
+  @Get('find/:id')
+  async getOneStatistica(@Param("id") id: string): Promise<Statistica> {
+    return this.statisticaService.getOneStatistica(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateStatisticaDto: UpdateStatisticaDto) {
-    return this.statisticaService.update(+id, updateStatisticaDto);
+  @ApiOperation({ summary: "Statisticani ID si bo'yicha o'chirish" })
+  @Delete('delete/:id')
+  async delOneStatistica(@Param("id") id: string) {
+    return this.statisticaService.delOneStatistica(+id);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.statisticaService.remove(+id);
+  @ApiOperation({ summary: "Statisticani ID si bo'yicha o'zgartirish" })
+  @Put("update/:id")
+  async updateStatistica(@Param('id') id: string, @Body() updateStatisticaDto: UpdateStatisticaDto) {
+    return this.statisticaService.updateStatistica(+id, updateStatisticaDto);
   }
 }

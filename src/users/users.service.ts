@@ -14,6 +14,7 @@ import { Otp } from '../otp/models/otp.model';
 import { dates, decode, encode } from '../helpers/crypto';
 import { v4 as uuidv4, v4 } from 'uuid';
 import { VerifyOtpDto } from './dto/verifyOtp.det';
+import { Statistica } from '../statistica/models/statistica.model';
 
 let newUser:any
 @Injectable()
@@ -21,6 +22,8 @@ export class UsersService {
   constructor(
     @InjectModel(User) private userRepo: typeof User,
     @InjectModel(Otp) private otpRepo: typeof Otp,
+    @InjectModel(Statistica) private statisticaRepo: typeof Statistica,
+
     private readonly jwtService: JwtService,
   ) { }
   async registration(registerUserDto: RegisterUserDto, res: Response) {
@@ -224,6 +227,22 @@ export class UsersService {
               const newConfirUser = await this.userRepo.create({
                 ...newUser
               })
+
+              const statistica = await this.statisticaRepo.findOne({where: {id: 1}})
+              console.log(statistica);
+              
+              if (statistica) {
+                await this.statisticaRepo.update(
+                  {total_number_of_user: + 1},
+                  {where: {id: 1}, returning: true}
+                )
+              }
+              if (!statistica){
+                await this.statisticaRepo.create(
+                  {total_number_of_user: 1},
+                  {where: {id: 1}, returning: true} 
+                )
+              }
 
               const tokens = await this.getTokens(
                 newConfirUser

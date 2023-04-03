@@ -5,9 +5,10 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { User } from './models/user.model';
 import { JwtModule } from '@nestjs/jwt';
 import { Otp } from '../otp/models/otp.model';
+import { Statistica } from '../statistica/models/statistica.model';
 
 @Module({
-  imports: [SequelizeModule.forFeature([User, Otp]), JwtModule],
+  imports: [SequelizeModule.forFeature([User, Otp, Statistica]), JwtModule],
   controllers: [UsersController],
   providers: [UsersService]
 })

@@ -14,7 +14,7 @@ export class BooksService {
     }
 
     async getAllBook(){
-        const bookies = await this.bookRepo.findAll({include: {all: true}});
+        const bookies = await this.bookRepo.findAll();
         return bookies;
     }
 

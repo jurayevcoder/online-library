@@ -1,4 +1,5 @@
-import { Column, DataType, Model, Table } from "sequelize-typescript";
+import { Column, DataType, HasMany, Model, Table } from "sequelize-typescript";
+import { Book } from "../../books/models/book.model";
 
 interface AuthorAttr {
     full_name: string;
@@ -29,4 +30,7 @@ export class Author extends Model<Author, AuthorAttr> {
         type: DataType.STRING
     })
     about: string
+
+    @HasMany(() => Book)
+    book: Book
 }

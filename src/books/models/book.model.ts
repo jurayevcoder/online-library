@@ -10,7 +10,7 @@ interface BookAttr {
     name: string;
     book_type: string;
     language: string;
-    created_at: Date;
+    created_at: string;
     aouthor_id: number;
     description: string;
     e_book: boolean;
@@ -41,9 +41,9 @@ export class Book extends Model<Book, BookAttr> {
     language: string;
 
     @Column({
-        type: DataType.DATE
+        type: DataType.STRING
     })
-    created_at: Date;
+    created_at: string;
 
     @ForeignKey(() => Author)
     @Column({
