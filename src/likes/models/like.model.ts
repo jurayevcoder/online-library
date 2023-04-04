@@ -1,5 +1,6 @@
 import { BelongsTo, Column, DataType, ForeignKey, Model, Table } from "sequelize-typescript";
 import { Book } from "../../books/models/book.model";
+import { User } from "../../users/models/user.model";
 
 interface LikeAttr {
     user_id: number;
@@ -16,10 +17,13 @@ export class Like extends Model<Like, LikeAttr> {
     })
     id: number;
 
+    @ForeignKey(() => User)
     @Column({
         type: DataType.INTEGER
     })
     user_id: number;
+    @BelongsTo(() => User)
+    user: User
 
     @ForeignKey(() => Book)
     @Column({

@@ -1,5 +1,6 @@
 import { BelongsTo, Column, DataType, ForeignKey, Model, Table } from "sequelize-typescript";
 import { Book } from "../../books/models/book.model";
+import { User } from "../../users/models/user.model";
 
 interface DislikeAttr {
     user_id: number;
@@ -7,7 +8,7 @@ interface DislikeAttr {
     dislike_number: number;
 }
 
-@Table({ tableName: "like" })
+@Table({ tableName: "dislike" })
 export class Dislike extends Model<Dislike, DislikeAttr> {
     @Column({
         type: DataType.INTEGER,
@@ -16,10 +17,13 @@ export class Dislike extends Model<Dislike, DislikeAttr> {
     })
     id: number;
 
+    @ForeignKey(() => User)
     @Column({
         type: DataType.INTEGER
     })
     user_id: number;
+    @BelongsTo(() => User)
+    user: User
 
     @ForeignKey(() => Book)
     @Column({

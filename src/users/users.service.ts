@@ -233,14 +233,13 @@ export class UsersService {
               
               if (statistica) {
                 await this.statisticaRepo.update(
-                  {total_number_of_user: + 1},
+                  {total_number_of_user: statistica.total_number_of_user + 1},
                   {where: {id: 1}, returning: true}
                 )
               }
               if (!statistica){
                 await this.statisticaRepo.create(
-                  {total_number_of_user: 1},
-                  {where: {id: 1}, returning: true} 
+                  {total_number_of_user: 1}
                 )
               }
 
