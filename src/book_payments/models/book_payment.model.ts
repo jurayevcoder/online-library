@@ -5,7 +5,7 @@ import { User } from "../../users/models/user.model";
 interface BookPaymentAttr {
     user_id: number;
     book_id: number;
-    delivery: string;
+    delivery: boolean;
 }
 
 @Table({ tableName: "book_payments" })
@@ -34,7 +34,7 @@ export class BookPayment extends Model<BookPayment, BookPaymentAttr> {
     book: Book
 
     @Column({
-        type: DataType.STRING
+        type: DataType.BOOLEAN
     })
-    delivery: string;
+    delivery: boolean;
 }

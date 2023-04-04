@@ -8,12 +8,10 @@ export class CreateAdvertisementDto {
     product_name: string;
 
     @ApiProperty({example: "2023-04-04", description: "Reklama boshlash sanasi"})
-    @IsDate()
     @IsNotEmpty()
     start_date: Date;
 
     @ApiProperty({example: "2023-04-10", description: "Reklama tugash sanasi"})
-    @IsDate()
     @IsNotEmpty()
     finish_date: Date;
 

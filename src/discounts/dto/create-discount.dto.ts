@@ -13,12 +13,10 @@ export class CreateDiscountDto {
     number_percentage: number;
 
     @ApiProperty({example: "2023-05-20", description: "Chegirma boshlanish sanasi"})
-    @IsDate()
     @IsNotEmpty()
     start_date: Date;
 
     @ApiProperty({example: "2023-05-25", description: "Chegirma tugash sanasi"})
-    @IsDate()
     @IsNotEmpty()
     finish_date: Date;
 }
