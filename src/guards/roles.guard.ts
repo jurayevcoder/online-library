@@ -42,7 +42,7 @@ export class RolesGuard implements CanActivate {
         }
         let user: any;
         try {
-            user = this.jwtService.verify(token);
+            user = this.jwtService.verify(token)
             console.log(user);
         } catch (error) {
             throw new UnauthorizedException({
@@ -51,10 +51,7 @@ export class RolesGuard implements CanActivate {
         }
         req.user = user;
 
-        const permission = user.roles.some((role: any) =>
-            requiredRoles.includes(role.value),
-        );
-        if (!permission) {
+        if (user.role == requiredRoles) {
             throw new ForbiddenException({
                 message: "Sizga ruxsat etilmagan"
             });

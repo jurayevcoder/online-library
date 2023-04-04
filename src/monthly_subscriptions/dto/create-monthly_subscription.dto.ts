@@ -15,7 +15,7 @@ export class CreateMonthlySubscriptionDto {
     @ApiProperty({example: "1", description: "Chegirmalar ID si"})
     @IsInt()
     @IsNotEmpty()
-    discounts_id: number;
+    discount_id: number;
 
     @ApiProperty({example: "1", description: "To'lov usuli ID si"})
     @IsInt()

@@ -6,7 +6,7 @@ import { PaymentMethod } from "../../payment_methods/models/payment_method.model
 interface MonthlySubscriptionAttr {
     user_id: number;
     price: number;
-    discounts_id: number;
+    discount_id: number;
     payment_method_id: number;
 }
 

@@ -11,6 +11,7 @@ interface UserAttr {
     phone: string;
     hashed_password: string
     birthday: Date;
+    role: string;
 }
 
 @Table({tableName: "users"})
@@ -53,6 +54,11 @@ export class User extends Model<User, UserAttr>{
         type: DataType.STRING,
     })
     hashed_refresh_token: string;
+
+    @Column({
+        type: DataType.STRING,
+    })
+    role: string;
 
     @HasMany(() => Comment)
     comment: Comment;

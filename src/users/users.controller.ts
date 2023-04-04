@@ -10,6 +10,8 @@ import { UserSalfGuard } from '../guards/user-self.guard';
 import { User } from './models/user.model';
 import { VerifyOtpDto } from './dto/verifyOtp.det';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
+import { Roles } from '../decorators/roles-auth-decorator';
+import { RolesGuard } from '../guards/roles.guard';
 
 @ApiTags("Foydalanuvchilar")
 @Controller('users')
@@ -48,6 +50,8 @@ export class UsersController {
   @ApiOperation({ summary: "Foydalanuvchini ko'rish" })
   // @UseGuards(UserSalfGuard)
   // @UseGuards(JwtAuthGuard)
+  // @Roles("USER")
+  @UseGuards(RolesGuard)
   @Get('find-all')
   async getAllUser() {
     return this.usersService.getAllUser();

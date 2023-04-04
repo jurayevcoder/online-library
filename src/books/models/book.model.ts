@@ -11,7 +11,7 @@ interface BookAttr {
     book_type: string;
     language: string;
     created_at: string;
-    aouthor_id: number;
+    author_id: number;
     description: string;
     e_book: boolean;
 }

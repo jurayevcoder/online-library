@@ -6,6 +6,7 @@ interface AdminAttr {
     phone: string;
     hashed_password: string;
     hashed_refresh_token: string;
+    role: string;
 }
 
 @Table({tableName: "admin"})
@@ -41,4 +42,9 @@ export class Admin extends Model<Admin, AdminAttr> {
         type: DataType.STRING,
     })
     hashed_refresh_token: string;
+
+    @Column({
+        type: DataType.STRING,
+    })
+    role: string;
 }

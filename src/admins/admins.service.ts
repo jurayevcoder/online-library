@@ -34,7 +34,7 @@ export class AdminsService {
     }
 
     const hashed_password = await bcrypt.hash(createAdminDto.password, 7);
-    newAdmin = {...createAdminDto, hashed_password: hashed_password }
+    newAdmin = {...createAdminDto, hashed_password: hashed_password, role: "ADMIN" }
 
     const phone_number = createAdminDto.phone;
     const sms_code = otpGenerator.generate(4, {

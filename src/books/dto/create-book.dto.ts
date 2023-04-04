@@ -23,7 +23,7 @@ export class CreateBookDto {
     created_at: string;
 
     @ApiProperty({example: "1", description: "Kitob mualifi ID si"})
-    aouthor_id: number;
+    author_id: number;
 
     @ApiProperty({example: "Bu kito zo'q", description: "Kitob uchun ma'lumot"})
     @IsString()

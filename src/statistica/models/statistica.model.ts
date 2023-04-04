@@ -18,27 +18,32 @@ export class Statistica extends Model<Statistica, StatisticaAttr> {
     id: number;
 
     @Column({
-        type:DataType.INTEGER
+        type:DataType.INTEGER,
+        defaultValue: 0
     })
     total_number_of_user: number
 
     @Column({
-        type:DataType.INTEGER
+        type:DataType.INTEGER,
+        defaultValue: 0
     })
     number_subscribed_user: number
 
     @Column({
-        type:DataType.INTEGER
+        type:DataType.INTEGER,
+        defaultValue: 0
     })
     unsubscribed_user_number: number
 
     @Column({
-        type:DataType.INTEGER
+        type:DataType.INTEGER,
+        defaultValue: 0
     })
     total_number_of_books: number
 
     @Column({
-        type:DataType.INTEGER
+        type:DataType.INTEGER,
+        defaultValue: 0
     })
     total_number_of_ads: number
 }
