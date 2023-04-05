@@ -135,16 +135,16 @@ export class UsersService {
 
   async delOneUser(id: number) {
     const statistica = await this.statisticaRepo.findOne({ where: { id: 1 } })
-    const msUser = await this.monthlySubscriptionRepo.findOne({where: {user_id: id}})
-    if (msUser){
+    const msUser = await this.monthlySubscriptionRepo.findOne({ where: { user_id: id } })
+    if (msUser) {
       await this.statisticaRepo.update(
-        { total_number_of_user: statistica.total_number_of_user - 1, number_subscribed_user: statistica.number_subscribed_user - 1},
+        { total_number_of_user: statistica.total_number_of_user - 1, number_subscribed_user: statistica.number_subscribed_user - 1 },
         { where: { id: 1 }, returning: true }
       )
-    } 
+    }
     else {
       await this.statisticaRepo.update(
-        { total_number_of_user: statistica.total_number_of_user - 1, unsubscribed_user_number: statistica.unsubscribed_user_number - 1},
+        { total_number_of_user: statistica.total_number_of_user - 1, unsubscribed_user_number: statistica.unsubscribed_user_number - 1 },
         { where: { id: 1 }, returning: true }
       )
     }
@@ -257,13 +257,13 @@ export class UsersService {
                 )
 
                 await this.statisticaRepo.update(
-                  { unsubscribed_user_number: statistica.unsubscribed_user_number + 1},
+                  { unsubscribed_user_number: statistica.unsubscribed_user_number + 1 },
                   { where: { id: 1 }, returning: true }
-              )
+                )
               }
               if (!statistica) {
                 await this.statisticaRepo.create(
-                  { total_number_of_user: 1 , unsubscribed_user_number: 1}
+                  { total_number_of_user: 1, unsubscribed_user_number: 1 }
                 )
               }
 
