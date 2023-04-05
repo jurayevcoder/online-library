@@ -183,6 +183,7 @@ export class AdminsService {
       id: admin.id,
       email: admin.email,
       phone: admin.phone,
+      role: admin.role,
     }
     const [accessToken, refreshToken] = await Promise.all([
       this.jwtService.signAsync(jwtPayload, {

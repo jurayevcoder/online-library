@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/sequelize';
 import { CreateStatisticaDto } from './dto/create-statistica.dto';
 import { UpdateStatisticaDto } from './dto/update-statistica.dto';
 import { Statistica } from './models/statistica.model';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class StatisticaService {

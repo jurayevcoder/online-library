@@ -48,13 +48,16 @@ export class UsersController {
   }
 
   @ApiOperation({ summary: "Foydalanuvchini ko'rish" })
-  @Roles("USER")
+  @Roles("ADMIN", "SUPERADMIN")
+  @UseGuards(RolesGuard)
   @Get('find-all')
   async getAllUser() {
     return this.usersService.getAllUser();
   }
 
   @ApiOperation({ summary: "Foydalanuvchin ID si bo'yicha ko'rish" })
+  @Roles("USER")
+  @UseGuards(RolesGuard)
   @UseGuards(UserSalfGuard)
   @UseGuards(JwtAuthGuard)
   @Get('find/:id')
@@ -63,6 +66,8 @@ export class UsersController {
   }
 
   @ApiOperation({ summary: "Foydalanuvchin ID si bo'yicha o'chirish" })
+  @Roles("USER", "ADMIN", "SUPERADMIN")
+  @UseGuards(RolesGuard)
   @UseGuards(UserSalfGuard)
   @UseGuards(JwtAuthGuard)
   @Delete('delete/:id')
@@ -71,6 +76,8 @@ export class UsersController {
   }
 
   @ApiOperation({ summary: "Foydalanuvchin ID si bo'yicha o'zgartirish" })
+  @Roles("USER")
+  @UseGuards(RolesGuard)
   @UseGuards(UserSalfGuard)
   @UseGuards(JwtAuthGuard)
   @Put("update/:id")

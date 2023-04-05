@@ -11,12 +11,15 @@ import { UpdateAdminDto } from './dto/update-admin.dto';
 import { VerifyOtpDto } from './dto/verifyOtp.det';
 import { Admin } from './models/admin.model';
 import { Roles } from '../decorators/roles-auth-decorator';
+import { RolesGuard } from '../guards/roles.guard';
 
 @Controller('admins')
 export class AdminsController {
   constructor(private readonly adminsService: AdminsService) {}
 
   @ApiOperation({ summary: "Admini ro'yxatdan o'tishi" })
+  @Roles("SUPERADMIN")
+  @UseGuards(RolesGuard)
   @Post('register')
   async registration(@Body() createAdminDto: CreateAdminDto, @Res({ passthrough: true }) res: Response) {
     return this.adminsService.registration(createAdminDto, res);
@@ -46,13 +49,16 @@ export class AdminsController {
   }
 
   @ApiOperation({ summary: "Admini ko'rish" })
-  @Roles("ADMIN")
+  @Roles("SUPERADMIN")
+  @UseGuards(RolesGuard)
   @Get('find-all')
   async getAllAdmin() {
     return this.adminsService.getAllAdmin();
   }
 
   @ApiOperation({ summary: "Admin ID si bo'yicha ko'rish" })
+  @Roles("ADMIN")
+  @UseGuards(RolesGuard)
   @UseGuards(UserSalfGuard)
   @UseGuards(JwtAuthGuard)
   @Get('find/:id')
@@ -61,6 +67,8 @@ export class AdminsController {
   }
 
   @ApiOperation({ summary: "Admin ID si bo'yicha o'chirish" })
+  @Roles("SUPERADMIN", "ADMIN")
+  @UseGuards(RolesGuard)
   @UseGuards(UserSalfGuard)
   @UseGuards(JwtAuthGuard)
   @Delete('delete/:id')
@@ -69,6 +77,8 @@ export class AdminsController {
   }
 
   @ApiOperation({ summary: "Admin ID si bo'yicha o'zgartirish" })
+  @Roles("ADMIN")
+  @UseGuards(RolesGuard)
   @UseGuards(UserSalfGuard)
   @UseGuards(JwtAuthGuard)
   @Put("update/:id")
