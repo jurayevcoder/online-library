@@ -66,7 +66,7 @@ export class UsersController {
   }
 
   @ApiOperation({ summary: "Foydalanuvchin ID si bo'yicha o'chirish" })
-  @Roles("USER", "ADMIN", "SUPERADMIN")
+  @Roles("USER")
   @UseGuards(RolesGuard)
   @UseGuards(UserSalfGuard)
   @UseGuards(JwtAuthGuard)

@@ -11,12 +11,6 @@ import { RolesGuard } from '../guards/roles.guard';
 export class StatisticaController {
   constructor(private readonly statisticaService: StatisticaService) {}
 
-  @ApiOperation({ summary: "Statistica yaratish" })
-  @Post("create")
-  async createStatistica(@Body() createStatisticaDto: CreateStatisticaDto): Promise<Statistica> {
-    return this.statisticaService.createStatistica(createStatisticaDto);
-  }
-
   @ApiOperation({ summary: "Statisticalarni ko'rish " })
   @Roles("SUPERADMIN")
   @UseGuards(RolesGuard)

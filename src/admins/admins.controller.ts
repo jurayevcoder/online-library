@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, HttpStatus, Res, UseGuards, Put } from '@nestjs/common';
-import { ApiOperation } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { CookieGetter } from '../decorators/cookieGetter.decorator';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
@@ -13,6 +13,7 @@ import { Admin } from './models/admin.model';
 import { Roles } from '../decorators/roles-auth-decorator';
 import { RolesGuard } from '../guards/roles.guard';
 
+@ApiTags("Adminlar")
 @Controller('admins')
 export class AdminsController {
   constructor(private readonly adminsService: AdminsService) {}
@@ -43,6 +44,8 @@ export class AdminsController {
   }
 
   @ApiOperation({ summary: "Admini ro'yxatdan o'tishi" })
+  @Roles("SUPERADMIN")
+  @UseGuards(RolesGuard)
   @Post('verify-sms-code')
   async verifyOtp(@Body() verifyOtpDto: VerifyOtpDto, @Res({ passthrough: true }) res: Response) {
     return this.adminsService.verifyOtp(verifyOtpDto, res);
@@ -67,10 +70,8 @@ export class AdminsController {
   }
 
   @ApiOperation({ summary: "Admin ID si bo'yicha o'chirish" })
-  @Roles("SUPERADMIN", "ADMIN")
+  @Roles("SUPERADMIN")
   @UseGuards(RolesGuard)
-  @UseGuards(UserSalfGuard)
-  @UseGuards(JwtAuthGuard)
   @Delete('delete/:id')
   async delOneAdmin(@Param("id") id: string) {
     return this.adminsService.delOneAdmin(+id);

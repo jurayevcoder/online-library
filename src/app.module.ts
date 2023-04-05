@@ -31,6 +31,8 @@ import { Advertisement } from './advertisements/models/advertisement.model';
 import { Admin } from './admins/models/admin.model';
 import { StatisticaModule } from './statistica/statistica.module';
 import { Statistica } from './statistica/models/statistica.model';
+import { SuperadminModule } from './superadmin/superadmin.module';
+import { Superadmin } from './superadmin/models/superadmin.model';
 
 
 @Module({
@@ -43,7 +45,7 @@ import { Statistica } from './statistica/models/statistica.model';
       username: process.env.POSTGRES_USER,
       password: String(process.env.POSTGRES_PASSWORD),
       database: process.env.POSTGRES_DB,
-      models: [User, Otp, PaymentMethod, MonthlySubscription, Like, Dislike, Discount, Comment, Book, BookPayment, BookImage, Author, Advertisement, Admin, Statistica],
+      models: [User, Otp, PaymentMethod, MonthlySubscription, Like, Dislike, Discount, Comment, Book, BookPayment, BookImage, Author, Advertisement, Admin, Statistica, Superadmin],
       autoLoadModels: true,
       logging: false,
     }),
@@ -62,6 +64,7 @@ import { Statistica } from './statistica/models/statistica.model';
     AdminsModule,
     OtpModule,
     StatisticaModule,
+    SuperadminModule,
   ],
   controllers: [],
   providers: [],

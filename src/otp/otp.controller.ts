@@ -6,16 +6,9 @@ import { OtpService } from './otp.service';
 @Controller('otp')
 export class OtpController {
   constructor(private readonly otpService: OtpService) {}
-
   @ApiOperation({summary: "Otpni ko'rish"})
   @Get('find-all')
   findAll() {
     return this.otpService.getAllOtp();
-  }
-
-  @ApiOperation({summary: "Otpni ID si bo'yicha ko'rish"})
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.otpService.getOneOtp(id);
   }
 }

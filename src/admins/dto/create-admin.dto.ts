@@ -20,10 +20,11 @@ export class CreateAdminDto {
     @ApiProperty({example: "password", description: "Admining paroli"})
     @IsString()
     @IsNotEmpty()
+    @MinLength(6, {})
     password: string;
 
     @ApiProperty({example: "cinfirm_password", description: "Admining paroli"})
     @IsString()
-    @MinLength(6, {})
+    @IsNotEmpty()
     confirm_password: string;
 }
