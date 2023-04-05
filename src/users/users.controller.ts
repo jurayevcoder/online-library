@@ -48,34 +48,31 @@ export class UsersController {
   }
 
   @ApiOperation({ summary: "Foydalanuvchini ko'rish" })
-  // @UseGuards(UserSalfGuard)
-  // @UseGuards(JwtAuthGuard)
-  // @Roles("USER")
-  @UseGuards(RolesGuard)
+  @Roles("USER")
   @Get('find-all')
   async getAllUser() {
     return this.usersService.getAllUser();
   }
 
   @ApiOperation({ summary: "Foydalanuvchin ID si bo'yicha ko'rish" })
-  // @UseGuards(UserSalfGuard)
-  // @UseGuards(JwtAuthGuard)
+  @UseGuards(UserSalfGuard)
+  @UseGuards(JwtAuthGuard)
   @Get('find/:id')
   async getOneUser(@Param("id") id: string): Promise<User> {
     return this.usersService.getOneUser(+id);
   }
 
   @ApiOperation({ summary: "Foydalanuvchin ID si bo'yicha o'chirish" })
-  // @UseGuards(UserSalfGuard)
-  // @UseGuards(JwtAuthGuard)
+  @UseGuards(UserSalfGuard)
+  @UseGuards(JwtAuthGuard)
   @Delete('delete/:id')
   async delOneUser(@Param("id") id: string) {
     return this.usersService.delOneUser(+id);
   }
 
   @ApiOperation({ summary: "Foydalanuvchin ID si bo'yicha o'zgartirish" })
-  // @UseGuards(UserSalfGuard)
-  // @UseGuards(JwtAuthGuard)
+  @UseGuards(UserSalfGuard)
+  @UseGuards(JwtAuthGuard)
   @Put("update/:id")
   async updateUser(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.updateUser(+id, updateUserDto);

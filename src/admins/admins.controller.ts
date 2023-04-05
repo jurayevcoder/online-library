@@ -10,6 +10,7 @@ import { LoginAdminDto } from './dto/login-admin.dt';
 import { UpdateAdminDto } from './dto/update-admin.dto';
 import { VerifyOtpDto } from './dto/verifyOtp.det';
 import { Admin } from './models/admin.model';
+import { Roles } from '../decorators/roles-auth-decorator';
 
 @Controller('admins')
 export class AdminsController {
@@ -45,8 +46,7 @@ export class AdminsController {
   }
 
   @ApiOperation({ summary: "Admini ko'rish" })
-  @UseGuards(UserSalfGuard)
-  @UseGuards(JwtAuthGuard)
+  @Roles("ADMIN")
   @Get('find-all')
   async getAllAdmin() {
     return this.adminsService.getAllAdmin();
