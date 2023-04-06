@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Res, HttpStatus, HttpCode, UseGuards, Put } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Res, HttpStatus, HttpCode, UseGuards, Put, HttpException, UseFilters } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { RegisterUserDto } from './dto/register-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -12,6 +12,7 @@ import { VerifyOtpDto } from './dto/verifyOtp.det';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 import { Roles } from '../decorators/roles-auth-decorator';
 import { RolesGuard } from '../guards/roles.guard';
+import { ErrorCode } from 'src/exceptions/ErrorCode';
 
 @ApiTags("Foydalanuvchilar")
 @Controller('users')
@@ -21,6 +22,11 @@ export class UsersController {
   @ApiOperation({ summary: "Foydalanuvchini ro'yxatdan o'tishi" })
   @Post('register')
   async registration(@Body() registerUserDto: RegisterUserDto, @Res({ passthrough: true }) res: Response) {
+    try {
+        await this.usersService.registration(registerUserDto, res);
+    } catch (error) { 
+      throw new ErrorCode("Registerda xatolik")
+    }
     return this.usersService.registration(registerUserDto, res);
   }
 
@@ -36,7 +42,6 @@ export class UsersController {
   async logout(
     @CookieGetter('refresh_token') refreshToken: string,
     @Res({ passthrough: true }) res: Response,
-
   ) {
     return this.usersService.logout(refreshToken, res)
   }
@@ -55,6 +60,7 @@ export class UsersController {
     return this.usersService.getAllUser();
   }
 
+  
   @ApiOperation({ summary: "Foydalanuvchin ID si bo'yicha ko'rish" })
   @Roles("USER")
   @UseGuards(RolesGuard)
