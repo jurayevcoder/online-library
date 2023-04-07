@@ -27,7 +27,7 @@ export class User extends Model<User, UserAttr>{
         type: DataType.STRING,
         allowNull: false,
     })
-    ful_name: string;
+    full_name: string;
 
     @Column({
         type: DataType.STRING,

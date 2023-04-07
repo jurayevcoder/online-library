@@ -1,0 +1,11 @@
+PORT = 2023
+POSTGRES_HOT = localhost
+POSTGRES_PORT = 5432
+POSTGRES_USER = postgres
+POSTGRES_PASSWORD = Iamdeveloper
+POSTGRES_DB = online_library
+ACCESS_TOKEN_KEY = MyAccsessVeryVERySecretKey12345
+ACCESS_TOKEN_TIME = '15m'
+REFRESH_TOKEN_KEY = MyRefreshVeryVERySecretKey12345
+REFRESH_TOKEN_TIME = '15d'
+crypt_password = "VeryVeryMySecretKey"
