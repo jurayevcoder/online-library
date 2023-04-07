@@ -1,4 +1,4 @@
-import { BadRequestException, ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/sequelize';
 import { RegisterUserDto } from './dto/register-user.dto';
@@ -16,6 +16,8 @@ import { v4 as uuidv4, v4 } from 'uuid';
 import { VerifyOtpDto } from './dto/verifyOtp.det';
 import { Statistica } from '../statistica/models/statistica.model';
 import { MonthlySubscription } from '../monthly_subscriptions/models/monthly_subscription.model';
+import { ErrorCode } from 'src/exceptions/ErrorCode';
+import { NotFoundError } from 'rxjs';
 
 let newUser: any
 @Injectable()
@@ -29,7 +31,14 @@ export class UsersService {
     private readonly jwtService: JwtService,
   ) { }
   async registration(registerUserDto: RegisterUserDto, res: Response) {
+    try {
+      await this.userRepo.findOne({ where: { phone: registerUserDto.phone } });
+    } catch (error) {
+      throw new NotFoundException
+    }
+
     const user = await this.userRepo.findOne({ where: { phone: registerUserDto.phone } });
+
     if (user) {
       throw new BadRequestException('Phone already exists!');
     }
@@ -41,6 +50,7 @@ export class UsersService {
     const hashed_password = await bcrypt.hash(registerUserDto.password, 7);
     newUser = { ...registerUserDto, hashed_password: hashed_password, role: "USER" }
 
+    
     const phone_number = registerUserDto.phone;
     const sms_code = otpGenerator.generate(4, {
       upperCaseAlphabets: false,
@@ -72,6 +82,11 @@ export class UsersService {
 
   async login(loginUserDto: LoginUserDto, res: Response) {
     const { email, password } = loginUserDto;
+    try {
+      await this.userRepo.findOne({ where: { email } });
+    } catch (error) {
+      throw new NotFoundException
+    }
     const user = await this.userRepo.findOne({ where: { email } });
     if (!user) {
       throw new UnauthorizedException('User not registered');
@@ -124,16 +139,32 @@ export class UsersService {
   }
 
   async getAllUser() {
+    try {
+      await this.userRepo.findAll({ include: { all: true } });
+    } catch (error) {
+      throw new NotFoundException()
+    }
     const useries = await this.userRepo.findAll({ include: { all: true } });
     return useries;
   }
 
   async getOneUser(id: number): Promise<User> {
+    try {
+      await this.userRepo.findByPk(id);
+    } catch (error) {
+      throw new NotFoundException
+    }
     const user = await this.userRepo.findByPk(id);
     return user;
   }
 
   async delOneUser(id: number) {
+    try {
+      await this.statisticaRepo.findOne({ where: { id: 1 } })
+      await this.monthlySubscriptionRepo.findOne({ where: { user_id: id } })
+    } catch (error) {
+      throw new NotFoundException
+    }
     const statistica = await this.statisticaRepo.findOne({ where: { id: 1 } })
     const msUser = await this.monthlySubscriptionRepo.findOne({ where: { user_id: id } })
     if (msUser) {

@@ -22,14 +22,8 @@ export class UsersController {
   @ApiOperation({ summary: "Foydalanuvchini ro'yxatdan o'tishi" })
   @Post('register')
   async registration(@Body() registerUserDto: RegisterUserDto, @Res({ passthrough: true }) res: Response) {
-    try {
-        await this.usersService.registration(registerUserDto, res);
-    } catch (error) { 
-      throw new ErrorCode("Registerda xatolik")
-    }
     return this.usersService.registration(registerUserDto, res);
   }
-
   @ApiOperation({ summary: "Foydalanuvchini saytga kirishi" })
   @Post('login')
   async login(@Body() loginUserDto: LoginUserDto, @Res({ passthrough: true }) res: Response) {
@@ -60,7 +54,7 @@ export class UsersController {
     return this.usersService.getAllUser();
   }
 
-  
+
   @ApiOperation({ summary: "Foydalanuvchin ID si bo'yicha ko'rish" })
   @Roles("USER")
   @UseGuards(RolesGuard)

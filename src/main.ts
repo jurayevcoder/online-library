@@ -1,21 +1,14 @@
-import { HttpAdapterHost, NestFactory } from "@nestjs/core"
+import { NestFactory } from "@nestjs/core"
 import { AppModule } from "./app.module"
 import * as cookieParser from 'cookie-parser'
 import { ValidationPipe } from "@nestjs/common";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
-import { AllExceptionsFilter } from "./exceptions/all-exceptions.filter";
-import { ConfigService } from "@nestjs/config";
+
 
 const start = async () => {
     try {
         const app = await NestFactory.create(AppModule);
         const PORT = process.env.PORT || 9999;
-
-        const httpAdapterHost = app.get(HttpAdapterHost);
-
-        // app.useGlobalFilters(new AllExceptionsFilter(httpAdapterHost));
-        
-
 
         app.use(cookieParser());
         app.setGlobalPrefix('api');
